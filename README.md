@@ -5,10 +5,10 @@ Extension for WordPress Data Access
 
 __How to install__
 
-This is not a normal WP plugi installation..
+This is not a normal WP plugin installation.
 
 * create a folder in wp-contet/plugins/wpda-cwg-extensions
-* copy plugin/wpda-cwg-extensions.php to tht folder
+* copy plugin/wpda-cwg-extensions.php to that folder
 * enable the plugin
 
 __How to search__
