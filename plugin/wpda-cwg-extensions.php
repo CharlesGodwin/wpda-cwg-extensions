@@ -62,6 +62,7 @@ function wpda_cwg_construct_where_clause($where_clause,
             case 'enum':
             case 'set':
             // next 4 are argueable
+            // Comment out the lines to include the column types in the search
             case 'year':
             case 'date':
             case 'datetime':
