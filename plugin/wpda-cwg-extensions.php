@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: CWG Extension for WPDA
+Plugin Name: WPDA Extension by CWG
 Description: An alternative search algorythm for WP Data Access
 Version: 1.0.0
 Author: Charles Godwin
@@ -32,11 +32,15 @@ OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to <https://unlicense.org> 
 */
 
+function filterit ($token) {
+    return !($token == null || (strlen(trim($token)) === 0));
+}
+
 function wpda_cwg_construct_where_clause($where_clause,
-    $schema,
-    $table,
-    $columns,
-    $search_value) {
+                                            $schema,
+                                            $table,
+                                            $columns,
+                                            $search_value) {
     // error_log("cwg-search entered:" . $search_value);
     if ($where_clause !== '') {
         return $where_clause;
@@ -50,6 +54,7 @@ function wpda_cwg_construct_where_clause($where_clause,
     global $wpdb;
     foreach ($columns as $column) {
         switch ($column['data_type']) {
+            // Comment out the case statement to include the column type in the search
             case 'tinyint':
             case 'smallint':
             case 'mediumint':
@@ -61,8 +66,7 @@ function wpda_cwg_construct_where_clause($where_clause,
             case 'time':
             case 'enum':
             case 'set':
-            // next 4 are argueable
-            // Comment out the lines to include the column types in the search
+            // next 4 are argueably searchable
             case 'year':
             case 'date':
             case 'datetime':
@@ -79,10 +83,11 @@ function wpda_cwg_construct_where_clause($where_clause,
     parse search request as if it was a space delimited CSV row
      */
     $tokens = str_getcsv(trim($search_value), ' ');
-    $tokens = array_filter($tokens, function($token){
-        return !($token == NULL ||(strlen(trim($token)) === 0);
-    });
-    if (count($tokens) == 0) {
+    $tokens = array_filter($tokens, function ($token) {
+        return !($token == null || (strlen(trim($token)) === 0));
+        });
+
+    if (count($tokens) === 0) {
         return $where_clause;
     }
     $queries = array();
@@ -98,4 +103,3 @@ function wpda_cwg_construct_where_clause($where_clause,
 }
 
 add_filter('wpda_construct_where_clause', 'wpda_cwg_construct_where_clause', 10, 5);
-
