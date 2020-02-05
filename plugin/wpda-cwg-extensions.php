@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: CWG Search Extension for WPDA
+Plugin Name: CWG Extension for WPDA
 Description: An alternative search algorythm for WP Data Access
-Version: 0.9.3
+Version: 1.0.0
 Author: Charles Godwin
 Copyright (c) 2020 Charles Godwin <charles@godwin.ca> All Rights Reserved.
 
-his is free and unencumbered software released into the public domain.
+This is free and unencumbered software released into the public domain.
 
 Anyone is free to copy, modify, publish, use, compile, sell, or
 distribute this software, either in source code form or as a compiled
@@ -32,7 +32,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to <https://unlicense.org> 
 */
 
-function cwg_construct_where_clause($where_clause,
+function wpda_cwg_construct_where_clause($where_clause,
     $schema,
     $table,
     $columns,
@@ -61,33 +61,26 @@ function cwg_construct_where_clause($where_clause,
             case 'time':
             case 'enum':
             case 'set':
-                break;
             // next 4 are argueable
             case 'year':
             case 'date':
             case 'datetime':
             case 'timestamp':
+                break;
             default:
-                $column_name = $column['column_name'];
-                $likes[] ="`$column_name` like '%$field%'";
+                $likes[] ="`{$column['column_name']}` like '%$field%'";
         }
     }
     if (count($likes) == 0) {
         return $where_clause;
     }
-
     /*
     parse search request as if it was a space delimited CSV row
      */
-    $tokenarray = str_getcsv(trim($search_value), ' ');
-    $tokenarray = array_filter($tokenarray);
-    $tokens = array();
-    foreach ($tokenarray as $token) {
-        if (strlen(trim($token)) === 0) {
-            continue; // skip empty string
-        }
-        $tokens[] = esc_attr($token);
-    }
+    $tokens = str_getcsv(trim($search_value), ' ');
+    $tokens = array_filter($tokens, function($token){
+        return !($token == NULL ||(strlen(trim($token)) === 0);
+    });
     if (count($tokens) == 0) {
         return $where_clause;
     }
@@ -100,9 +93,8 @@ function cwg_construct_where_clause($where_clause,
         $queries[] = "(" . join(" OR ", $wheres) . ")";
     }
     $where = '(' . join(" AND ", $queries) . ')'; 
-    // error_log(print_r($where, true));
     return $where;
 }
 
-add_filter('wpda_construct_where_clause', 'cwg_construct_where_clause', 10, 5);
+add_filter('wpda_construct_where_clause', 'wpda_cwg_construct_where_clause', 10, 5);
 
