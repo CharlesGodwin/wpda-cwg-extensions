@@ -32,10 +32,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to <https://unlicense.org> 
 */
 
-function filterit ($token) {
-    return !($token == null || (strlen(trim($token)) === 0));
-}
-
 function wpda_cwg_construct_where_clause($where_clause,
                                             $schema,
                                             $table,
