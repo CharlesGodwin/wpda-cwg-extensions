@@ -90,7 +90,7 @@ function wpda_cwg_construct_where_clause($where_clause,
     foreach ($tokens as $token) {
         $wheres = array();
         foreach ($likes as $like) {
-            $wheres[] = str_replace($field, $token, $like);
+            $wheres[] = str_replace($field, esc_attr($token), $like);
         }
         $queries[] = "(" . join(" OR ", $wheres) . ")";
     }
