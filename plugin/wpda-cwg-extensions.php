@@ -44,7 +44,6 @@ function wpda_cwg_construct_where_clause($where_clause,
     if ($search_value == null || trim($search_value) === '') {
         return $where_clause;
     }
-
     $likes = [];
     $field = '!!token!!';
     global $wpdb;
@@ -88,13 +87,17 @@ function wpda_cwg_construct_where_clause($where_clause,
     }
     $queries = array();
     foreach ($tokens as $token) {
+        /*
+         * 2020/02/19 CWG Revised to unescape the single quote like O'Brian
+         */
+        $token = str_replace("&#039;","\'",esc_attr($token));
         $wheres = array();
         foreach ($likes as $like) {
-            $wheres[] = str_replace($field, esc_attr($token), $like);
+            $wheres[] = str_replace($field, $token, $like);
         }
         $queries[] = "(" . join(" OR ", $wheres) . ")";
     }
-    $where = '(' . join(" AND ", $queries) . ')'; 
+    $where = '(' . join(" AND ", $queries) . ')';
     return $where;
 }
 
