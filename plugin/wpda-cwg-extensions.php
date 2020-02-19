@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPDA Extension by CWG
 Description: An alternative search algorythm for WP Data Access
-Version: 1.0.0
+Version: 1.0.1
 Author: Charles Godwin
 Copyright (c) 2020 Charles Godwin <charles@godwin.ca> All Rights Reserved.
 
