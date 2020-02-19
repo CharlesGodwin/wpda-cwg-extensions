@@ -8,13 +8,13 @@ Revised treatment of tokens to unescape the single quote like O'Brian
 2020/02/05 Version 1.0.0
 
 __Introduction__
-This is an alternative search algoryth that looks for the occurance of each token in the search list rather than the default of just one string. 
+This is an alternative search algorythm that looks for the occurance of each token in the search list rather than the default of just one string. 
 
 __How to install__
 
 This is not a normal WP plugin installation.
 
-* create a folder in wp-contet/plugins/wpda-cwg-extensions
+* create a folder in wp-content/plugins/wpda-cwg-extensions
 * copy plugin/wpda-cwg-extensions.php to that folder
 * enable the plugin
 
