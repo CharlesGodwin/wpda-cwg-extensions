@@ -1,6 +1,8 @@
 # wpda-cwg-extensions
 Extension for WordPress Data Access by Charles Godwin
 
+__This plug in does NOT work with the premium version of WP Data Access__
+
 2020/02/19 Version 1.0.1
 
 Revised treatment of tokens to unescape the single quote like O'Brian
