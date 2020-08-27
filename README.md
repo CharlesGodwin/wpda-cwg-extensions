@@ -1,7 +1,7 @@
 # wpda-cwg-extensions
 Extension for WordPress Data Access by Charles Godwin
 
-__This plug in does NOT work with the premium version of WP Data Access__
+__This plug-in is NOT compatible with the premium version of WP Data Access__
 
 2020/02/19 Version 1.0.1
 
