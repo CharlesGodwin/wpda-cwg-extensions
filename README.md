@@ -23,4 +23,4 @@ or __“Le Moine”__.
 
 __Premium Version Search__  
 
-This plugin follows the premium version protocol of searching and all fields marked as Queryable are searched. Note that numeric fields are only searched if the token is a number. Numeric fields are searched as `field = floatval(token)`. ll other fields use the MySQL LIKE construct.
+This plugin follows the premium version protocol of searching and all fields marked as Queryable are searched. Note that numeric fields are only searched  if the token is a number. A numeric search is for __field = token__. All other fields use the MySQL __field LIKE "%token%"__ construct.

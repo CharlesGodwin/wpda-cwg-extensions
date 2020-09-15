@@ -33,13 +33,14 @@ For more information, please refer to <https://unlicense.org>
  */
 class WPDA_cwg_extensions
 {
-    protected $trace = FALSE;
-    protected $testmode = TRUE;
     public function __construct()
     {
         add_filter('wpda_construct_where_clause', array($this, 'construct_where_clause'), 10, 5);
+        $this->testmode = FALSE;
         if ($this->testmode){
             $this->trace = TRUE;
+        } else {
+            $this->trace = FALSE;
         }
     }
 
