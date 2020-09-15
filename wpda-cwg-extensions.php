@@ -35,7 +35,7 @@ class WPDA_cwg_extensions
 {
     public function __construct()
     {
-        add_filter('wpda_construct_where_clause', array($this, 'construct_where_clause'), 10, 5);
+        add_filter('wpda_construct_where_clause', array($this, 'construct_where_clause'), 9, 5);
         $this->testmode = FALSE;
         if ($this->testmode){
             $this->trace = TRUE;
@@ -46,14 +46,13 @@ class WPDA_cwg_extensions
 
     public function construct_where_clause($where_clause, $schema_name, $table_name, $columns, $search_value) {
         
-        if (!$this->testmode) {
-            if ($where_clause !== '') {
-                if ($this->trace) {
-                    error_log(__FUNCTION__ . " where clause is already valued: " . $where_clause);
-                }
-                return $where_clause;
+        if ($where_clause !== '') {
+            if ($this->trace) {
+                error_log(__FUNCTION__ . " where clause is already valued: " . $where_clause);
             }
+            return $where_clause;
         }
+
         if ($search_value == null || trim($search_value) === '') {
             if ($this->trace) {
                 error_log(__FUNCTION__ . " empty search string");
