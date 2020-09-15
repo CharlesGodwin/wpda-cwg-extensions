@@ -2,6 +2,7 @@
 Extension for WordPress Data Access by Charles Godwin
 
 Refer to CHANGES.md for changes
+=======
 
 __This plugin works with both the premium version and free version of WP Data Access__
 
