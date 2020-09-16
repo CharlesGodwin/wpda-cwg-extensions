@@ -1,9 +1,9 @@
 ### ChangeLog for  wpda-cwg-extensions
 
-#### 1.1.0 / --- under construction ---
+#### 1.1.0 / 2020/09/17
 
 Fixed: Added $wpdb->prepare() to all where statements
-Added: Added support code for premium version  
+Added: Added code to support premium version  
 
 #### 1.0.1 / 2020/02/19
 
