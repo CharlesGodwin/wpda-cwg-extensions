@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPDA Extension by CWG
 Description: An alternative search algorithm for WP Data Access, see README.md
-Version: 1.1.0
+Version: 1.1.1
 Plugin URI: https://github.com/CharlesGodwin/wpda-cwg-extensions
 Author: Charles Godwin
 Copyright (c) 2020 Charles Godwin <charles@godwin.ca> All Rights Reserved.
@@ -142,6 +142,9 @@ class WPDA_cwg_extensions
         }
         if (0 < sizeof($table_settings) && isset($table_settings[0]['wpda_table_settings'])) {
             $table_settings = json_decode($table_settings[0]['wpda_table_settings']);
+            if ($table_settings->search_type !== "normal"){
+                return $where_clause; // Only process normal filter
+            }
             if (isset($table_settings->search_settings)) {
                 if (isset($table_settings->search_settings->search_columns)) {
                     $premium = TRUE;

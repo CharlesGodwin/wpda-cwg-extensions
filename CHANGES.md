@@ -1,5 +1,9 @@
 ### ChangeLog for  wpda-cwg-extensions
 
+#### 1.1.1 / 2020/09/17
+
+Enhancement: Added check to only construct where clause if the search mode is Normal wildcard search
+
 #### 1.1.0 / 2020/09/17
 
 Fixed: Added $wpdb->prepare() to all where statements
