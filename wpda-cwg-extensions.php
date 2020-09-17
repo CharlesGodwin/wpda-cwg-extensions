@@ -154,7 +154,9 @@ class WPDA_cwg_extensions
         }
 
         if (!$premium) {
-            error_log(__FUNCTION__ . ' Not premium');
+            if ($this->trace) {
+                error_log(__FUNCTION__ . ' Not premium');
+            }
             return null;
         }
         if (isset($table_settings->search_settings->no_search_no_rows)) {
