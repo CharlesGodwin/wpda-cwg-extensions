@@ -142,7 +142,7 @@ class WPDA_cwg_extensions
         }
         if (0 < sizeof($table_settings) && isset($table_settings[0]['wpda_table_settings'])) {
             $table_settings = json_decode($table_settings[0]['wpda_table_settings']);
-            if ($table_settings->search_type !== "normal"){
+            if ($table_settings->search_settings->search_type !== "normal"){
                 return $where_clause; // Only process normal filter
             }
             if (isset($table_settings->search_settings)) {
