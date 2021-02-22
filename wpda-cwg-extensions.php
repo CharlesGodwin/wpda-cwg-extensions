@@ -2,7 +2,7 @@
 /*
 Plugin Name: WPDA Extension by CWG
 Description: An alternative search algorithm for WP Data Access, see README.md
-Version: 1.1.1
+Version: 1.2.0
 Plugin URI: https://github.com/CharlesGodwin/wpda-cwg-extensions
 Author: Charles Godwin
 Copyright (c) 2020 Charles Godwin <charles@godwin.ca> All Rights Reserved.
@@ -36,16 +36,16 @@ class WPDA_cwg_extensions
 {
     public function __construct()
     {
+
         /*
          * the filter must run at priority 9 to ensure it runs before the default filter which runs at 10
          */
         add_filter('wpda_construct_where_clause', array($this, 'construct_where_clause'), 9, 5);
-        $this->trace = FALSE; /* change this to TRUE if you want to debug */
+        $this->trace = false; /* change this to TRUE if you want to debug */
     }
 
     public function construct_where_clause($where_clause, $schema_name, $table_name, $columns, $search_value)
     {
-
         if ($where_clause !== '') {
             if ($this->trace) {
                 error_log(__FUNCTION__ . " where clause is already valued: " . $where_clause);
@@ -60,7 +60,7 @@ class WPDA_cwg_extensions
                 if ($this->trace) {
                     error_log(__FUNCTION__ . " empty search string");
                 }
-                return null;
+                return $where_clause;
             }
             return $this->construct_where_clause_free($where_clause, $schema_name, $table_name, $columns, $search_value);
         }
@@ -115,7 +115,7 @@ class WPDA_cwg_extensions
             /*
              * 2020/02/19 CWG Revised to unescape the single quote like O'Brian
              */
-            $token = str_replace("&#039;", "\'", esc_attr($token));
+            $token  = str_replace("&#039;", "\'", esc_attr($token));
             $wheres = array();
             foreach ($likes as $like) {
                 $wheres[] = $wpdb->prepare($like, $token);
@@ -132,22 +132,22 @@ class WPDA_cwg_extensions
     private function construct_where_clause_premium($where_clause, $schema_name, $table_name, $columns, $search_value)
     {
         if ($this->trace) {
-            error_log(__FUNCTION__ . ' entered: ' . $where_clause . ', ' . $schema_name . ', ' . $table_name . ', ' . $columns . ', ' . $search_value);
+            error_log(__FUNCTION__ . ' entered: ' . $where_clause . ', ' . $schema_name . ', ' . $table_name . ', ' . print_r($columns, true) . ', ' . $search_value);
         }
 
-        $premium = FALSE;
+        $premium        = false;
         $table_settings = \WPDataAccess\Plugin_Table_Models\WPDA_Table_Settings_Model::query($table_name, $schema_name);
         if ($this->trace) {
-            error_log(__FUNCTION__ . " " . print_r($table_settings, TRUE));
+            error_log(__FUNCTION__ . " " . print_r($table_settings, true));
         }
         if (0 < sizeof($table_settings) && isset($table_settings[0]['wpda_table_settings'])) {
             $table_settings = json_decode($table_settings[0]['wpda_table_settings']);
-            if ($table_settings->search_settings->search_type !== "normal"){
+            if ($table_settings->search_settings->search_type !== "normal") {
                 return $where_clause; // Only process normal filter
             }
             if (isset($table_settings->search_settings)) {
                 if (isset($table_settings->search_settings->search_columns)) {
-                    $premium = TRUE;
+                    $premium        = true;
                     $search_columns = $table_settings->search_settings->search_columns;
                 }
             }
@@ -163,9 +163,9 @@ class WPDA_cwg_extensions
             $no_search_no_rows = $table_settings->search_settings->no_search_no_rows;
             if ($this->trace) {
                 error_log(__FUNCTION__ . ' no_search_no_rows: ' . $no_search_no_rows);
-            }     
+            }
         } else {
-            $no_search_no_rows = FALSE;
+            $no_search_no_rows = false;
         }
 
         if (isset($table_settings->search_settings->column_specific_search)) {
@@ -175,9 +175,9 @@ class WPDA_cwg_extensions
             }
 
         } else {
-            $column_specific_search = FALSE;
+            $column_specific_search = false;
         }
-        if ($column_specific_search){
+        if ($column_specific_search) {
             $where_search_args = WPDA_cwg_extensions::add_wpda_search_args($columns);
             if ($this->trace) {
                 error_log(__FUNCTION__ . ' where_search_args: ' . $where_search_args);
@@ -188,7 +188,7 @@ class WPDA_cwg_extensions
 
         if (
             $no_search_no_rows &&
-           (('' === trim($search_value) || null === $search_value) && $where_search_args === '')
+            (('' === trim($search_value) || null === $search_value) && $where_search_args === '')
         ) {
             // No search criteria entered + no search no rows
             if ($this->trace) {
@@ -197,7 +197,7 @@ class WPDA_cwg_extensions
             return '(1=2)'; // empty
         }
 
-        $likes = [];
+        $likes    = [];
         $numerics = [];
         foreach ($columns as $column) {
             $column_name = $column['column_name'];
@@ -244,7 +244,7 @@ class WPDA_cwg_extensions
                     /*
                      * 2020/02/19 CWG Revised to unescape the single quote like O'Brian
                      */
-                    $token = esc_attr(str_replace("&#039;", "\'", $token));
+                    $token  = esc_attr(str_replace("&#039;", "\'", $token));
                     $wheres = array();
                     $string = '%' . $token . '%';
                     foreach ($likes as $like) {
@@ -267,7 +267,7 @@ class WPDA_cwg_extensions
         if (null !== $where_clause) {
             if ('' !== $where_search_args) {
                 if ('' === $where_clause) {
-                    $where_clause =  $where_search_args;
+                    $where_clause = $where_search_args;
                 } else {
                     $where_clause = "{$where_clause} and {$where_search_args}";
                 }
@@ -289,12 +289,31 @@ class WPDA_cwg_extensions
                 $column_name = $column['column_name'];
                 if (isset($_REQUEST["wpda_search_{$column_name}"])) {
                     $column_date_type = $column['data_type'];
-                    $column_value = sanitize_text_field(wp_unslash($_REQUEST["wpda_search_{$column_name}"])); // input var okay.
+                    $column_value     = sanitize_text_field(wp_unslash($_REQUEST["wpda_search_{$column_name}"])); // input var okay.
                     if ('' !== $column_value) {
-                        if ('string' === \WPDataAccess\WPDA::get_type($column_date_type)) {
-                            $where_columns[] = $wpdb->prepare("`{$column_name}` like %s", '%'.esc_attr($column_value).'%'); // WPCS: unprepared SQL OK.
-                        } elseif ('number' === \WPDataAccess\WPDA::get_type($column_date_type)) {
-                            $where_columns[] = $wpdb->prepare("`{$column_name}` = %f", esc_attr($column_value)); // WPCS: unprepared SQL OK.
+                        switch ($column['data_type']) {
+                            // All columns that get here will be searched
+                            // Comment out the case statement to include the column type in the search
+                            case 'tinyint':
+                            case 'smallint':
+                            case 'mediumint':
+                            case 'int':
+                            case 'bigint':
+                            case 'float':
+                            case 'double':
+                            case 'decimal':
+                            case 'year':
+                                $where_columns[] = $wpdb->prepare("`{$column_name}` = %f", esc_attr($column_value)); // WPCS: unprepared SQL OK.
+                                break;
+                            case 'time':
+                            case 'enum':
+                            case 'date':
+                            case 'datetime':
+                            case 'timestamp':
+                                $where_columns[] = $wpdb->prepare("`{$column_name}` like %s", '%' . esc_attr($column_value) . '%'); // WPCS: unprepared SQL OK.
+                                break;
+                            default:
+                                $where_columns[] = $wpdb->prepare("`{$column_name}` like %s", '%' . esc_attr($column_value) . '%'); // WPCS: unprepared SQL OK.
                         }
                     }
                 }
