@@ -34,14 +34,29 @@ For more information, please refer to <https://unlicense.org>
  */
 class WPDA_cwg_extensions
 {
+
     public function __construct()
     {
+        $this->skiptables = array();
+        // add tables and schemas here
+        // $this->skiptables['schema_name'] = ["table1", "table2"];
+        // TODO Add custom field support
 
+        $this->trace       = false;
+        $this->cwg_disable = false;
+        if ($this->trace) {
+            error_log(__FILE__ . " Request: " . print_r($_REQUEST, true));
+        }
         /*
          * the filter must run at priority 9 to ensure it runs before the default filter which runs at 10
          */
-        add_filter('wpda_construct_where_clause', array($this, 'construct_where_clause'), 9, 5);
-        $this->trace = false; /* change this to TRUE if you want to debug */
+        if ($this->cwg_disable) {
+            if ($this->trace) {
+                error_log(__FILE__ . " Plugin ignored disabled");
+            }
+        } else {
+            add_filter('wpda_construct_where_clause', array($this, 'construct_where_clause'), 9, 5);
+        }
     }
 
     public function construct_where_clause($where_clause, $schema_name, $table_name, $columns, $search_value)
@@ -52,7 +67,12 @@ class WPDA_cwg_extensions
             }
             return $where_clause;
         }
-
+        if (isset($this->skiptables[$schema_name]) && in_array($table_name, $$this->skiptables[$schema_name])) {
+            if ($this->trace) {
+                error_log(__FUNCTION__ . "Extension ignored for this table");
+            }
+             return $where_clause;
+        }
         if (function_exists('wpda_fremius') && wpda_fremius()->is__premium_only()) {
             return $this->construct_where_clause_premium($where_clause, $schema_name, $table_name, $columns, $search_value);
         } else {
