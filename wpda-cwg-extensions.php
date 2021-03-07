@@ -397,7 +397,7 @@ class WPDA_XS
 //             return ' (' . implode(' or ', $where_columns) . ') ';
 //         }
 //     }
-// }
+}
 if (is_plugin_active("wp-data-access-premium/wp-data-access.php")) {
     $wpda_xs = new WPDA_XS(true);
 } elseif (is_plugin_active("wp-data-access/wp-data-access.php")) {
