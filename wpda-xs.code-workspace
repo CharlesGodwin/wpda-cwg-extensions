@@ -1,0 +1,48 @@
+{
+	"folders": [
+		{
+			"name": "wpda-xs",
+			"path": "..\\wpda-xs"
+		},
+		{
+			"name": "wordpress-xdebug",
+			"path": "..\\wordpress-xdebug"
+		}
+	],
+	"settings": {
+		"cSpell.words": [
+			"Moine",
+			"NONINFRINGEMENT",
+			"NOTEMPTY",
+			"O'Brian",
+			"Queryable",
+			"SETURI",
+			"Unlicense",
+			"WPCS",
+			"WPDA",
+			"atts",
+			"floatval",
+			"fremius",
+			"is",
+			"mediumint",
+			"mumeric",
+			"seperated",
+			"shortcode",
+			"skiptable",
+			"skiptables",
+			"smallint",
+			"testmode",
+			"tinyint",
+			"unslash",
+			"valign",
+			"wheres",
+			"wildcard",
+			"wpdadataforms",
+			"wpdadataproject",
+			"wpdadiehard",
+			"wpdataaccess",
+			"wpdb",
+			"xdebug"
+		]
+	}
+}

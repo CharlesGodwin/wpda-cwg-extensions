@@ -1,2 +1,0 @@
-wpda-cwg-extensions/wpda-cwg-extensions.php
-wpda-cwg-extensions/README.md

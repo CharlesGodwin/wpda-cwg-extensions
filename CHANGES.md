@@ -1,5 +1,21 @@
-### ChangeLog for  wpda-cwg-extensions
+### ChangeLog for  wpda-xs (formerly wpda-cwg-extensions)
 
+#### 1.9.0 2021/03/08
+New: 
+- Column filter will accept special keyword EMPTY and NOTEMPTY. They must be in upper case. 
+      The plugin will test for column is NULL or column = '' for EMPTY, and column is NOT NULL and column != ''..
+- Setting page added to Settings menu in dashboard. This allows you to temporarily disable the plugin and to set list of tables that should not be processed with the plugin.
+
+Fixed: 
+- Performance improvements.
+
+Changed:
+- Significant refactoring.
+- Install process simplified.
+
+Warning:
+- The next release will rename the project and the plugin folder name
+  
 #### 1.2.0 / 2021/02/24
 Added: Ability to exclude specific tables from where clause generation
 Fixed: Enum type data was not being checked for column filter
